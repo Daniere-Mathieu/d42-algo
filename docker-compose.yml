@@ -10,7 +10,7 @@ services:
       - MARIADB_ROOT_PASSWORD=passwordOfTheRoot
       - MARIADB_USER=Rihyette
       - MARIADB_PASSWORD=password
-      - MARIADB_DATABASE=sqli
+      - MARIADB_DATABASE=classroom
     ports:
       - 3307:3306
   php:
