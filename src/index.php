@@ -1,5 +1,4 @@
 <?php
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,7 +16,7 @@
     </form>
     <form action="./controller/" method="post">
         <h2>Login</h2>
-        hello world
+        <input type="text" name="firstname">
         <button type="submit">Envoyez</button>
     </form>
 
