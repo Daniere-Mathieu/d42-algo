@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    image: mariadb
+    networks:
+      - backend
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      - MARIADB_ROOT_PASSWORD=passwordOfTheRoot
+      - MARIADB_USER=Rihyette
+      - MARIADB_PASSWORD=password
+      - MARIADB_DATABASE=sqli
+    ports:
+      - 3307:3306
+  php:
+    build: ./
+    networks:
+      - backend
+    links:
+      - database
+    depends_on:
+      - database
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/var/www/html/
+networks:
+  backend:
