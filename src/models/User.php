@@ -1,6 +1,9 @@
 <?php
 
+namespace models;
+
 use \utils\Verification;
+use \PDO;
 
 class User
 {
@@ -32,11 +35,11 @@ class User
         $res = $query->fetchAll(PDO::FETCH_CLASS, 'User');
         return $res;
     }
-    public function logUser(PDO $pdo, $id)
+    public function logUser(PDO $pdo, int $id)
     {
         $query = $pdo->prepare('SELECT * FROM user WHERE id >= :id');
         $query->bindParam(':id', $id);
         $query->execute();
-        return !$query->fetchObject('User') ? false : true;
+        return !$query->fetch() ? false : true;
     }
 }

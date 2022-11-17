@@ -1,5 +1,9 @@
 <?php
 
+namespace utils;
+
+use \PDO;
+
 class Database
 {
     protected PDO|null $pdo = null;
