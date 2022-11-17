@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "name": "tp",
+      "path": "./src"
+    },
+    {
+      "name": "exo",
+      "path": ".",
+    }
+
+  ],
+  "settings": {}
+}

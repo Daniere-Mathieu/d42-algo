@@ -1,32 +1,30 @@
 <?php
-require_once('./utils/database.php');
-require_once("./model/UserModel.php");
-$pdo = (new Database())->getPDO();
-$user = (new User())->getUserFromDatabase($pdo, 1);
-var_dump((new User())->getUsersFromDatabase($pdo, 1, 5));
 
-var_dump($user->firstname)
-?>
-<!DOCTYPE html>
-<html lang="fr">
+use \utils\Verification;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
+require_once('utils/verification.php');
 
-<body>
-    <form action="./controller/" method="post">
-        <h2>Register</h2>
-        <input type="text">
-        <button type="submit">Envoyez</button>
-    </form>
-    <form action="./controller/" method="post">
-        <h2>Login</h2>
-        <input type="text" name="firstname">
-        <button type="submit">Envoyez</button>
-    </form>
+$explodeURI = explode('/', $_SERVER["REQUEST_URI"]);
 
-</body>
+$firstParts = $explodeURI[1];
 
-</html>
+$lastParts = !Verification::verifyIfExistAndIsNotEmpty($explodeURI[2]) ? $explodeURI[2] : '';
+
+switch ($firstParts) {
+    case 'user':
+        switch ($lastParts) {
+            case 'register':
+                break;
+            case 'login':
+                break;
+            case 'details':
+                break;
+            default:
+        }
+        break;
+    case 'course':
+        break;
+
+    default:
+        require_once('./view/index.php');
+}

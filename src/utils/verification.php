@@ -1,8 +1,11 @@
 <?php
+
+namespace utils;
+
 class Verification
 {
-    public function verifyIfExistAndIsNotEmpty($value)
+    public static function verifyIfExistAndIsNotEmpty($value)
     {
-        return  !isset($value) || empty($value);
+        return  is_null($value) || !isset($value) || empty($value);
     }
 }
