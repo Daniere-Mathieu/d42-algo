@@ -1,4 +1,11 @@
 <?php
+require_once('./utils/database.php');
+require_once("./model/UserModel.php");
+$pdo = (new Database())->getPDO();
+$user = (new User())->getUserFromDatabase($pdo, 1);
+var_dump((new User())->getUsersFromDatabase($pdo, 1, 5));
+
+var_dump($user->firstname)
 ?>
 <!DOCTYPE html>
 <html lang="fr">

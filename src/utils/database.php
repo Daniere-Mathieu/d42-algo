@@ -2,7 +2,7 @@
 
 class Database
 {
-    protected $pdo = null;
+    protected PDO|null $pdo = null;
     private $dbUser = "Rihyette";
     private $dbDatabase = "classroom";
     private $dbPassword = "password";
@@ -15,5 +15,9 @@ class Database
 
             $this->pdo = new PDO("mysql:dbname=" . $this->dbDatabase . ";host=" . $this->dbHost . ";", $this->dbUser, $this->dbPassword);
         }
+    }
+    public function getPDO()
+    {
+        return $this->pdo;
     }
 }
