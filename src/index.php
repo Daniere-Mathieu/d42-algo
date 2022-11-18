@@ -28,6 +28,7 @@ switch ($firstParts) {
         $userController = new UserController();
         switch ($lastParts) {
             case 'register':
+                $userController->register($pdo);
                 break;
             case 'login':
                 $userController->login($pdo);
@@ -35,6 +36,7 @@ switch ($firstParts) {
             case 'details':
                 break;
             default:
+                $userController->all($pdo);
         }
         break;
     case 'course':

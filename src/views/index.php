@@ -13,8 +13,8 @@
         <div class="form__container">
             <form class="form__wrapper" action="/user/register" method="post" enctype="multipart/form-data">
                 <h2>Register</h2>
-                <input type="text" name="firstname" placeholder="prénom">
-                <input type="text" name="lastname" placeholder="lastname">
+                <input type="text" name="firstname" placeholder="prénom" required>
+                <input type="text" name="lastname" placeholder="lastname" required>
                 <input type="text" name="address" placeholder="addresse">
                 <input type="tel" name="phoneNumber" placeholder="numéro de téléphone">
                 <input type="text" name="trigram" placeholder="trigramme">
