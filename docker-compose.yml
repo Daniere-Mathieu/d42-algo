@@ -25,5 +25,6 @@ services:
       - "8081:80"
     volumes:
       - ./src:/var/www/html/
+  #    - ./src/log:/var/log/classroom/
 networks:
   backend:

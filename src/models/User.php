@@ -15,19 +15,19 @@ class User
     public string $phoneNumber;
     public string $trigram;
 
-    public function getUserFromDatabase(PDO $pdo, int $id): User
+    public function getUserFromDatabase(PDO $pdo, int $id): User | bool
     {
-        if (Verification::verifyIfExistAndIsNotEmpty($id) || Verification::verifyIfExistAndIsNotEmpty($pdo)) return false;
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $query = $pdo->prepare('SELECT * FROM user WHERE id = :id');
         $query->bindParam(':id', $id);
         $query->execute();
-        $res = $query->fetchObject('User');
+        $res = $query->fetchObject(__NAMESPACE__ . '\\User');
         return $res;
     }
 
-    public function getUsersFromDatabase(PDO $pdo, int $startID, int $limit = 15): array
+    public function getAllUsersFromDatabase(PDO $pdo, int $startID, int $limit = 15): array | bool
     {
-        if (Verification::verifyIfExistAndIsNotEmpty($startID) || Verification::verifyIfExistAndIsNotEmpty($limit) || Verification::verifyIfExistAndIsNotEmpty($pdo)) return false;
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $query = $pdo->prepare('SELECT * FROM user WHERE id >= :startId LIMIT :limitValue;');
         $query->bindParam(':startId', $startID);
         $query->bindParam(':limitValue', $limit, PDO::PARAM_INT);
@@ -37,6 +37,7 @@ class User
     }
     public function logUser(PDO $pdo, int $id): bool
     {
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $query = $pdo->prepare('SELECT * FROM user WHERE id >= :id');
         $query->bindParam(':id', $id);
         $query->execute();
@@ -44,6 +45,7 @@ class User
     }
     public function registerUser(PDO $pdo, array $value): bool
     {
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $sqlRequest = 'INSERT INTO user (`firstname`, `lastname`, `profilePicture`,`address`,`phoneNumber`,`trigram`) VALUES (:firstname, :lastname, :profilePicture,:address,:phoneNumber,:trigram)';
         $query = $pdo->prepare($sqlRequest);
         $query->execute($value);
@@ -52,9 +54,11 @@ class User
 
     private function countUser(PDO $pdo): int
     {
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
+
         $query = $pdo->prepare('SELECT COUNT(*) FROM user');
         $query->execute();
-        return $query->fetch();
+        return $query->fetch()[0];
     }
 
     /**
@@ -65,6 +69,7 @@ class User
      */
     public function getPagination(PDO $pdo, int $limit): int|float
     {
+        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $count = $this->countUser($pdo);
         return ceil($count / $limit);
     }

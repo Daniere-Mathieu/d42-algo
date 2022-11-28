@@ -18,6 +18,7 @@ $text = !empty($_GET["describle"]) ? $_GET["describle"] : 'mettez un ?describle=
 </head>
 
 <body>
+  <!-- j'apelle mes variables dadns mon html -->
   <h1><?= $helloWorld ?></h1>
   <p><?= $text ?></p>
   <img src="<?= $srcImage ?>" alt="<?= $altImage ?>" />
