@@ -39,8 +39,12 @@ switch ($firstParts) {
             case 'login':
                 $userController->login($pdo);
                 break;
-            case 'details':
-                $userController->details($pdo);
+            case 'detail':
+                if (!array_key_exists(3, $explodeURI) || Verification::verifyIfNotExistAndIsEmpty($explodeURI[3])) {
+                    die();
+                }
+                $id = $explodeURI[3];
+                $userController->detail($pdo, $id);
                 break;
             default:
                 $userController->all($pdo, 15);
@@ -51,8 +55,10 @@ switch ($firstParts) {
 
     case '404':
         break;
+    case '':
+        break;
     default:
         // if (!$_SESSION["logged"])
-        require_once('views/index.php');
+        //require_once('views/index.php');
         //header('Location: /user/');
 }

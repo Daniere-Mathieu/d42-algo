@@ -19,7 +19,7 @@
                 <input type="tel" name="phoneNumber" placeholder="numéro de téléphone">
                 <input type="text" name="trigram" placeholder="trigramme">
                 <label for="avatar">Choose a profile picture:</label>
-                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/jpg, image/webp,image/svg">
                 <button type="submit">Envoyez</button>
             </form>
 

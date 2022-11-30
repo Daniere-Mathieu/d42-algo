@@ -1,0 +1,19 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+}
+.card__image {
+  width: 200px;
+  height: 200px;
+}

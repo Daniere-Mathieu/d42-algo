@@ -6,6 +6,7 @@ use \models\User;
 use \pdo;
 use utils\Logger;
 use utils\Verification;
+use utils\FormatData;
 
 class UserController
 {
@@ -75,6 +76,7 @@ class UserController
             $page =  Verification::arrayKeysExistAndNotEmpty(['page'], $_GET) ? $_GET['page'] : 1;
             $startId = ($page * $limit) - ($limit - 1);
             $res = $this->model->getAllUsersFromDatabase($pdo, $startId, $limit);
+            $res = FormatData::formatForDisplayGrid($res);
             require_once('views/listUser.php');
             Logger::logAction($this->ip . 'display the listUser page ' . $page);
         } catch (\Throwable $th) {
@@ -83,17 +85,15 @@ class UserController
         }
     }
 
-    public function details(PDO $pdo): void
+    public function detail(PDO $pdo, int $id): void
     {
         try {
             if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
                 header('Location: /404');
                 die();
             }
-            $id = 1;
 
             $res = $this->model->getUserFromDatabase($pdo, $id);
-
             require_once('views/detailUser.php');
             Logger::logAction($this->ip . 'display the detail page for id :' . $id);
         } catch (\Throwable $th) {
