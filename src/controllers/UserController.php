@@ -4,9 +4,7 @@ namespace controllers;
 
 use \models\User;
 use \pdo;
-use utils\Logger;
-use utils\Verification;
-use utils\FormatData;
+use utils\{Logger, Verification, FormatData};
 
 class UserController
 {
@@ -34,7 +32,7 @@ class UserController
 
             $_SESSION["logged"] = true;
             Logger::logAction($this->ip . 'log the user');
-            // header('location : /user');
+            header('Location : /user');
         } catch (\Throwable $th) {
             Logger::logError('fail to log for ip :' . $this->ip);
             throw $th;
@@ -44,17 +42,30 @@ class UserController
     public function register(PDO $pdo): void
     {
         try {
+
+            // if (!array_key_exists('avatar', $_FILES)) {
+            //     die();
+            // }
+
+            // $type = explode('/', $_FILES['avatar']["type"]);
+            // if ($type[0] !== 'image') {
+            //     die();
+            // }
+            // move_uploaded_file($_FILES['avatar'], $id);
+
+
             $expectedFields = array('firstname', 'lastname', 'address', 'phoneNumber', 'trigram');
             Verification::arrayKeysExistAndNotEmpty($expectedFields, $_POST);
-            if (!$this->model->registerUser($pdo, [])) {
+            $_POST['profilePicture'] = '.jpg';
+            if (!$this->model->insert($pdo, $_POST)) {
                 header('Location: /');
                 die();
             };
             $_SESSION["logged"] = true;
             $_SESSION["register"] = true;
             Logger::logAction($this->ip . 'register the user');
-            // ! error when change the header location
-            //header('location : /user');
+            header('Location : /user');
+            die();
         } catch (\Throwable $th) {
             Logger::logError('fail to register for ip:' . $this->ip);
             throw $th;
@@ -75,7 +86,7 @@ class UserController
             $paginationCount = $this->model->getPagination($pdo, $limit);
             $page =  Verification::arrayKeysExistAndNotEmpty(['page'], $_GET) ? $_GET['page'] : 1;
             $startId = ($page * $limit) - ($limit - 1);
-            $res = $this->model->getAllUsersFromDatabase($pdo, $startId, $limit);
+            $res = $this->model->getAll($pdo, $startId, $limit);
             $res = FormatData::formatForDisplayGrid($res);
             require_once('views/listUser.php');
             Logger::logAction($this->ip . 'display the listUser page ' . $page);
@@ -93,7 +104,7 @@ class UserController
                 die();
             }
 
-            $res = $this->model->getUserFromDatabase($pdo, $id);
+            $res = $this->model->get($pdo, $id);
             require_once('views/detailUser.php');
             Logger::logAction($this->ip . 'display the detail page for id :' . $id);
         } catch (\Throwable $th) {

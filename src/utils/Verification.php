@@ -5,7 +5,7 @@ namespace utils;
 class Verification
 {
     /**
-     * this method check if a value exist and if she is not null
+     * this static method check if a value exist and if she is not null
      * @param mixed $value the value i need to if the value is not set,null or is empty
      */
     public static function verifyIfNotExistAndIsEmpty(mixed $value): bool
@@ -14,7 +14,7 @@ class Verification
     }
 
     /**
-     * this method check if all the keys is in a array and if they are not empty
+     * this static method check if all the keys is in a array and if they are not empty
      * @param array $keys array of key who need to check if exist on array
      * @param array $array array of value
      */
@@ -26,6 +26,10 @@ class Verification
         return true;
     }
 
+    /**
+     * this static method check if all value exist and if all is not null
+     * @param array $array array of value
+     */
     public static function verifyIfAllExistAndNotIsEmpty(array $values): bool
     {
         foreach ($values as $value) {

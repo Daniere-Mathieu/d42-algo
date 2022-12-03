@@ -5,7 +5,8 @@ CREATE TABLE user (
     `profilePicture` TEXT,
     `address` VARCHAR(155),
     `phoneNumber` VARCHAR(16),
-    `trigram` VARCHAR(3)
+    `trigram` VARCHAR(3),
+    `role` ENUM('Student','Teacher','Admin')
 );
 CREATE TABLE course (
     `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,

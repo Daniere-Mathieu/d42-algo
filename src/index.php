@@ -7,10 +7,8 @@ require_once('autoload/Autoload.php');
 
 Autoloader::register();
 
-use \utils\Verification;
-use \controllers\UserController;
-use \utils\Database;
-use \utils\Logger;
+use \controllers\{UserController, CourseController};
+use \utils\{Database, Logger, Role, Verification};
 
 
 
@@ -41,6 +39,8 @@ switch ($firstParts) {
                 break;
             case 'detail':
                 if (!array_key_exists(3, $explodeURI) || Verification::verifyIfNotExistAndIsEmpty($explodeURI[3])) {
+                    header('Location: /404');
+
                     die();
                 }
                 $id = $explodeURI[3];
@@ -51,14 +51,30 @@ switch ($firstParts) {
         }
         break;
     case 'course':
+        $courseController = new CourseController($ip);
+        switch ($lastParts) {
+            case 'register':
+                $courseController->register($pdo);
+                break;
+            case 'detail':
+                if (!array_key_exists(3, $explodeURI) || Verification::verifyIfNotExistAndIsEmpty($explodeURI[3])) {
+                    header('Location: /404');
+                    die();
+                }
+                $id = $explodeURI[3];
+                $courseController->detail($pdo, $id);
+                break;
+            default:
+                $courseController->all($pdo, 15);
+        }
         break;
 
     case '404':
+        require_once('views/404.php');
         break;
     case '':
+        require_once('views/index.php');
         break;
     default:
-        // if (!$_SESSION["logged"])
-        //require_once('views/index.php');
-        //header('Location: /user/');
+        require_once('views/404.php');
 }
