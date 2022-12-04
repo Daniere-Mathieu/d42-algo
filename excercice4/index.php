@@ -1,5 +1,4 @@
 <?php
-// j'initie mes variable "globales" en haut de mon document
 $depot = [122, 143, 45, 28];
 $withdraw = [12, 47, 60, 80];
 
@@ -13,11 +12,11 @@ enum Gender: string
 class Bank
 {
     public string $user;
-    public int|float $solde = 0;
+    public int|float $balance = 0;
     public int|float $debt = 150;
     public string $gender;
     /**
-     * j'effectue la fonction construct afin de recuperer mon utilisateur
+     * I perform the construct function to retrieve my user
      */
     function __construct(Gender $gender)
     {
@@ -25,29 +24,29 @@ class Bank
         $this->gender = $gender->value;
     }
     /**
-     * @param int|float $number valeur a soutraire au solde
+     * @param int|float $number value to subtract from the balance
      */
-    public function addToSolde(int|float $number): void
+    public function addTobalance(int|float $number): void
     {
-        $this->solde += $number;
+        $this->balance += $number;
     }
 
     /**
-     * @param int|float $number valeur a soutraire au solde
+     * @param int|float $number value to subtract from the balance
      */
-    public function removeToSolde(int|float $number): void
+    public function removeTobalance(int|float $number): void
     {
-        // je recupere la valeur du solde dans une variable afin de la réutiliser plus tard
-        $originSolde = $this->solde;
-        $this->solde -= $number;
-        // je regarde si le solde est inférieur 0 et si c'est le cas j'ajoute une dette qui a pour valeur le solde négatif diviser par deux
-        if ($this->solde <= 0) {
-            $this->debt += (($number - $originSolde) / 2);
+        // I retrieve the value of the balance in a variable in order to reuse it later
+        $originbalance = $this->balance;
+        $this->balance -= $number;
+        // I check if the balance is less than 0 and if so I add a debt whose value is the negative balance divided by two
+        if ($this->balance <= 0) {
+            $this->debt += (($number - $originbalance) / 2);
         }
     }
     /**
-     * je crée une fonction qui va prendre toutes mles valeur du tableau , les additionné puis les diviser par le nombre d'élement du tableau
-     * @param array $array tableau de nombre permettant de trouver la moyenne
+     * I create a function that will take all the values ​​of the array, add them and then divide them by the number of elements in the array
+     * @param array $array table of numbers to find the mean
      */
     public function getAverage(array $array): int|float
     {
@@ -56,20 +55,20 @@ class Bank
 
     public function payDebtRent(): void
     {
-        if ($this->solde <= 0) $this->debt *= 1.2;
+        if ($this->balance <= 0) $this->debt *= 1.2;
         else {
             $debt = $this->debt;
-            $this->removeToSolde($this->debt);
+            $this->removeTobalance($this->debt);
             $this->debt -= $debt;
         }
     }
 }
 $bank = new Bank(Gender::Female);
 foreach ($depot as $value) {
-    $bank->addToSolde($value);
+    $bank->addTobalance($value);
 }
 foreach ($withdraw as $value) {
-    $bank->removeToSolde($value);
+    $bank->removeTobalance($value);
 }
 
 ?>
@@ -85,7 +84,7 @@ foreach ($withdraw as $value) {
 
 <body>
     <h1>Bonjour <?= $bank->gender ?> <?= $bank->user ?></h1>
-    <p>Il vous reste <strong><?= $bank->solde ?>€</strong> sur votre compte</p>
+    <p>Il vous reste <strong><?= $bank->balance ?>€</strong> sur votre compte</p>
     <p>Votre moyenne de dépot est de <strong><?= $bank->getAverage($depot) ?>€</strong></p>
     <p>Votre moyenne de retrait est de <strong><?= $bank->getAverage($withdraw) ?>€</strong></p>
     <?php if ($bank->debt > 0) { ?>

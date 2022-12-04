@@ -1,9 +1,9 @@
 <?php
-// je definie mes variables , afin de pouvoir les utiliser dans mon html , je les définie en haut pour séparer au maximun php et html; 
+// I define my variables, in order to be able to use them in my html, I define them at the top to separate php and html as much as possible; 
 $helloWorld = "Hello world";
 $srcImage = './javascript-736400_960_720.png';
 $altImage = "photo du logo javascript";
-// je fais une ternaire afin de recuperer une variable dans mon get ou prevenir les gens qu'il peuvent utiliser l'option ;
+// I make a ternary in order to recover a variable in my get or to warn people that they can use the option;
 $text = !empty($_GET["describle"]) ? $_GET["describle"] : 'mettez un ?describle=valeur pour inserez une valeur custom';
 
 ?>
@@ -18,7 +18,7 @@ $text = !empty($_GET["describle"]) ? $_GET["describle"] : 'mettez un ?describle=
 </head>
 
 <body>
-  <!-- j'apelle mes variables dadns mon html -->
+  <!-- I call my variables in my html-->
   <h1><?= $helloWorld ?></h1>
   <p><?= $text ?></p>
   <img src="<?= $srcImage ?>" alt="<?= $altImage ?>" />

@@ -1,12 +1,12 @@
 <?php
 
-// je définie une variable constante qui est égale au diviseur du calcul
+// I define a constant variable which is equal to the divisor of the calculation
 define("DIVIDER", 3);
 
-// dans cette fonction je vais recuperer le reste de du nombre afin d'obtenir le nombre d'élément sur la derniere ligne
+// in this function I will retrieve the rest of the number in order to obtain the number of elements on the last line
 /** 
- * la fonction retourne le nombre d'element sur la dernier ligne
- * @param int $number nombre d'element passer pour toutes les lignes
+ * the function returns the number of elements on the last line
+ * @param int $number number of elements to pass for all rows
  */
 function returnLastLineNumber(int $number): int
 {
@@ -14,9 +14,9 @@ function returnLastLineNumber(int $number): int
 }
 
 
-// dans cette fonction je vais diviser par 3 le nombre de ligne et l'arrondir au superieur pour avoir le nombre de ligne
+// in this function I will divide by 3 the number of lines and round it up to get the number of lines
 /**
- * @param int $number nombre d'element passer pour toutes les lignes
+ * @param int $number number of elements to pass for all rows
  */
 function returnAllLine(int $number): int
 {
@@ -37,8 +37,7 @@ $arr = [3, 8, 144, 152];
 
 <body>
     <?php
-    // je crée une boucle foreach (simplification de for) et je calcul pour chaque élément de mon tableau les valeurs
-
+    // I create a foreach loop (simplification of for) and I calculate for each element of my array the values
     foreach ($arr as $value) {
         $allLine = returnAllLine($value);
         $lastLine = returnLastLineNumber($value);

@@ -1,5 +1,5 @@
 <?php
-// je crée une ligne en utilisant \n qui permet de faire un retour a la ligne et j'utilise nl2br sur la fonction pour la rendre lisible pour l'html
+// I create a line using \n which allows to make a line break and I use nl2br on the function to make it readable for html
 $line = nl2br("bonjour, c'est moi.\n T'es le bien venu sur mon site");
 ?>
 <!DOCTYPE html>

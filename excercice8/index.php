@@ -1,4 +1,5 @@
 <?php
+// i get the the get arg
 $courseName = isset($_GET["courseName"]) ? $_GET["courseName"] : "";
 $teachername = isset($_GET["teacherName"]) ? $_GET["teacherName"] : "";
 

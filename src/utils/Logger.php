@@ -11,10 +11,10 @@ class Logger
     public static function logAction(mixed $value): void
     {
         try {
-            // $path = 'log/classroom/' . date('d-m-Y') . '.log';
-            // $file = fopen($path, 'c+');
-            // fwrite($file, $value . 'at ' . date('H/i/s/d/m/Y'));
-            // fclose($file);
+            $path = $_SERVER["DOCUMENT_ROOT"] . '/logs/' . date('d-m-Y') . '.log';
+            $file = fopen($path, 'a');
+            fwrite($file, $value . 'at ' . date('H/i/s/d/m/Y') . PHP_EOL);
+            fclose($file);
         } catch (\Throwable $th) {
             Logger::logError('Fail to log action : ' . $value);
             throw $th;
@@ -28,11 +28,11 @@ class Logger
     public static function logError(mixed $value): void
     {
         try {
-            // $path = 'log/classroom/' . date('d-m-Y') . '.Error.log';
+            $path = $_SERVER["DOCUMENT_ROOT"] . '/logs/' . date('d-m-Y') . '.Error.log';
 
-            // $file = fopen($path, 'c+');
-            // fwrite($file, $value . 'at ' . date('s/i/H/d/mY'));
-            // fclose($file);
+            $file = fopen($path, 'a');
+            fwrite($file, $value . 'at ' . date('s/i/H/d/mY') . PHP_EOL);
+            fclose($file);
         } catch (\Throwable $th) {
             throw $th;
         }
