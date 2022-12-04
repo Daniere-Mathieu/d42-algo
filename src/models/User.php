@@ -2,7 +2,7 @@
 
 namespace models;
 
-use \utils\{Verification, Crud, Role};
+use \utils\{Verification, Crud, Roles};
 use \PDO;
 
 
@@ -15,7 +15,7 @@ class User extends Crud
     public string $address;
     public string $phoneNumber;
     public string $trigram;
-    public Role|string $role;
+    public Roles|string $role;
 
 
     /**

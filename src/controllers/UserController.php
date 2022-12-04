@@ -4,7 +4,7 @@ namespace controllers;
 
 use \models\User;
 use \pdo;
-use utils\{Logger, Verification, FormatData};
+use utils\{Logger, Verification, FormatData, Redirect};
 
 class UserController
 {
@@ -13,32 +13,38 @@ class UserController
 
     public function __construct(string $ip)
     {
+        // i create an instance of Course to query the database
         $this->model = new User();
         $this->ip = $ip;
     }
 
+    /**
+     * this method allow one user to log  
+     * @param PDO $pdo PDO object use to query the user from database
+     */
     public function login(PDO $pdo): void
     {
         try {
-            if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
+            if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args()) || Verification::arrayKeysExistAndNotEmpty(["id"], $_POST)) {
+                Redirect::redirectAndDie('/404');
             }
-            if (!$this->model->logUser($pdo, 1)) {
-                header('Location: /');
-                die();
+            if (!$this->model->logUser($pdo, $_POST['id'])) {
+                Redirect::redirectAndDie('/');
             };
-            echo 'pass';
 
             $_SESSION["logged"] = true;
             Logger::logAction($this->ip . 'log the user');
-            header('Location : /user');
+            Redirect::redirectAndDie('/user');
         } catch (\Throwable $th) {
             Logger::logError('fail to log for ip :' . $this->ip);
             throw $th;
         }
     }
 
+    /**
+     * this method allow one user to register  
+     * @param PDO $pdo PDO object use to query the user from database
+     */
     public function register(PDO $pdo): void
     {
         try {
@@ -57,32 +63,30 @@ class UserController
             $expectedFields = array('firstname', 'lastname', 'address', 'phoneNumber', 'trigram');
             Verification::arrayKeysExistAndNotEmpty($expectedFields, $_POST);
             $_POST['profilePicture'] = '.jpg';
+            $_POST['role'] = 'Teacher';
             if (!$this->model->insert($pdo, $_POST)) {
-                header('Location: /');
-                die();
+                Redirect::redirectAndDie('/404');
             };
             $_SESSION["logged"] = true;
-            $_SESSION["register"] = true;
             Logger::logAction($this->ip . 'register the user');
-            header('Location : /user');
-            die();
+            Redirect::redirectAndDie('/user');
         } catch (\Throwable $th) {
             Logger::logError('fail to register for ip:' . $this->ip);
             throw $th;
         }
     }
 
+    /**
+     * this method return all the User and the ListUser page  
+     * @param PDO $pdo PDO object use to query the user from database
+     * @param int $limit the limit of user display 
+     */
     public function all(PDO $pdo, int $limit): void
     {
         try {
             if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
+                Redirect::redirectAndDie('/404');
             }
-            // if($_SESSION["register"]){
-            // 
-            // }
-            // faut que je count le nombre d'élement total que j'ai et peut etre le mettre en variable global pour eviter de refresh trop souvent
             $paginationCount = $this->model->getPagination($pdo, $limit);
             $page =  Verification::arrayKeysExistAndNotEmpty(['page'], $_GET) ? $_GET['page'] : 1;
             $startId = ($page * $limit) - ($limit - 1);
@@ -96,12 +100,16 @@ class UserController
         }
     }
 
+    /**
+     * this method return the User and the detailUser page  
+     * @param PDO $pdo PDO object use to query the user from database
+     * @param int $id the User id 
+     */
     public function detail(PDO $pdo, int $id): void
     {
         try {
             if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
+                Redirect::redirectAndDie('/404');
             }
 
             $res = $this->model->get($pdo, $id);

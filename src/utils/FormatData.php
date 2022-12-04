@@ -5,6 +5,7 @@ namespace utils;
 class FormatData
 {
     /**
+     * this algo return a two dimensionnal array
      * @param array $array array who need to be filter
      * @param int $grid number of item per line needeed (optionnal)
      */
@@ -32,6 +33,13 @@ class FormatData
         // after my loop i return the array
         return $sortArray;
     }
+
+    /**
+     * this static method return a cut string
+     * @param string $value the string i want to format
+     * @param int $limit the limit size of the string i want 
+     * @return string the string formated
+     */
     public static function formatCourseName(string $value, int $limit = 20): string
     {
         $size = strlen($value);

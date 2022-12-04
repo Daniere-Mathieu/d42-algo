@@ -4,6 +4,9 @@ namespace abstract;
 
 use \pdo;
 
+/**
+ * abstract class for crud
+ */
 abstract class AbstractCrud
 {
     abstract public function get(PDO $pdo, int $id);

@@ -4,7 +4,7 @@ namespace controllers;
 
 use \models\Course;
 use \pdo;
-use utils\{Logger, Verification, FormatData};
+use utils\{Logger, Verification, FormatData, Redirect};
 
 class CourseController
 {
@@ -13,78 +13,27 @@ class CourseController
 
     public function __construct(string $ip)
     {
+        // i create an instance of Course to query the database
         $this->model = new Course();
         $this->ip = $ip;
     }
 
-    public function login(PDO $pdo): void
-    {
-        try {
-            if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
-            }
-            if (!$this->model->logUser($pdo, 1)) {
-                header('Location: /');
-                die();
-            };
-            echo 'pass';
-
-            $_SESSION["logged"] = true;
-            Logger::logAction($this->ip . 'log the user');
-            header('Location : /user');
-        } catch (\Throwable $th) {
-            Logger::logError('fail to log for ip :' . $this->ip);
-            throw $th;
-        }
-    }
-
-    public function register(PDO $pdo): void
-    {
-        try {
-
-            // if (!array_key_exists('avatar', $_FILES)) {
-            //     die();
-            // }
-
-            // $type = explode('/', $_FILES['avatar']["type"]);
-            // if ($type[0] !== 'image') {
-            //     die();
-            // }
-            // move_uploaded_file($_FILES['avatar'], $id);
-
-
-            $expectedFields = array('firstname', 'lastname', 'address', 'phoneNumber', 'trigram');
-            Verification::arrayKeysExistAndNotEmpty($expectedFields, $_POST);
-            $_POST['profilePicture'] = '.jpg';
-            if (!$this->model->insert($pdo, $_POST)) {
-                header('Location: /');
-                die();
-            };
-            $_SESSION["logged"] = true;
-            $_SESSION["register"] = true;
-            Logger::logAction($this->ip . 'register the user');
-            header('Location : /user');
-            die();
-        } catch (\Throwable $th) {
-            Logger::logError('fail to register for ip:' . $this->ip);
-            throw $th;
-        }
-    }
-
+    /**
+     * this method return all the Course and the listCourse page  
+     * @param PDO $pdo PDO object use to query the course from database
+     * @param int $limit the limit of course display 
+     */
     public function all(PDO $pdo, int $limit): void
     {
         try {
+            // i verify if all the function parameter doesn't exist  
             if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
+                Redirect::redirectAndDie('/404');
             }
-            // if($_SESSION["register"]){
-            // 
-            // }
-            // faut que je count le nombre d'élement total que j'ai et peut etre le mettre en variable global pour eviter de refresh trop souvent
             $paginationCount = $this->model->getPagination($pdo, $limit);
+            // i get the number of the page if she exist else i give the value of 1
             $page =  Verification::arrayKeysExistAndNotEmpty(['page'], $_GET) ? $_GET['page'] : 1;
+            // i compute the value of the first id of the page 
             $startId = ($page * $limit) - ($limit - 1);
             $res = $this->model->getAll($pdo, $startId, $limit);
             $res = FormatData::formatForDisplayGrid($res);
@@ -97,12 +46,16 @@ class CourseController
         }
     }
 
+    /**
+     * this method return the Course and the detailsCourse page  
+     * @param PDO $pdo PDO object use to query the course from database
+     * @param int $id the id of the course display 
+     */
     public function detail(PDO $pdo, int $id): void
     {
         try {
             if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) {
-                header('Location: /404');
-                die();
+                Redirect::redirectAndDie('/404');
             }
 
             $res = $this->model->getJoin($pdo, $id);

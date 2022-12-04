@@ -16,7 +16,13 @@ class Course extends Crud
     public string $description;
 
 
-    public function getJoin(PDO $pdo, int $id)
+    /**
+     * this method return the value store in database of a specific course and the data about the user who own the course
+     * @param PDO $pdo PDO object use to query the course from database
+     * @param int $id the id of the course i want to get 
+     * @return array|false the Course and user information
+     */
+    public function getJoin(PDO $pdo, int $id): array|false
     {
         if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
         $field = 'courseName,code,description,firstname,lastname,phoneNumber,address,trigram,course.profilePicture';
@@ -24,14 +30,5 @@ class Course extends Crud
         $query->bindParam(':id', $id);
         $query->execute();
         return $query->fetch();
-    }
-
-    public function insertCourse(PDO $pdo, array $value): bool
-    {
-        if (!Verification::verifyIfAllExistAndNotIsEmpty(func_get_args())) return false;
-        $sqlRequest = 'INSERT INTO course (``, ``, ``,``,``,``) VALUES (:, :, :,:,:,:)';
-        $query = $pdo->prepare($sqlRequest);
-        $query->execute($value);
-        return !$query->fetch() ? false : true;
     }
 }

@@ -10,6 +10,8 @@
 
 <body>
     <main>
+        <a href="/user">liste des Utilisateur</a>
+        <a href="/course">liste des Cours</a>
         <div class="form__container">
             <form class="form__wrapper" action="/user/register" method="post" enctype="multipart/form-data">
                 <h2>Register</h2>
@@ -18,7 +20,7 @@
                 <input type="text" name="address" placeholder="addresse">
                 <input type="tel" name="phoneNumber" placeholder="numéro de téléphone">
                 <input type="text" name="trigram" placeholder="trigramme">
-                <select name="gender">
+                <select name="role">
                     <option value="Unspecified">Unspecified</option>
                 </select>
                 <label for="avatar">Choose a profile picture:</label>

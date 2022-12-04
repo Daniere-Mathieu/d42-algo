@@ -2,7 +2,10 @@
 
 namespace utils;
 
-enum Role
+/**
+ * enum of Role
+ */
+enum Roles
 {
     case Student;
     case Teacher;

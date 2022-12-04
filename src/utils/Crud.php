@@ -25,6 +25,7 @@ class Crud extends AbstractCrud
         // i assign the value of the class with the function get_called_class()
         $this->className = get_called_class();
     }
+
     /**
      * this private methods allow to get the name of the class without the namespace
      */
